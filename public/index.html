@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>MAHI-MD Session</title>
+<style>
+body{font-family:sans-serif;text-align:center;background:linear-gradient(120deg,#8e2de2,#4a00e0);color:#fff;padding:40px}
+img{border:6px solid #fff;border-radius:20px}
+button{padding:10px 20px;border:none;border-radius:8px;font-weight:bold}
+pre{background:#fff;color:#000;padding:10px;border-radius:10px}
+</style>
+</head>
+<body>
+<h1>MAHI‑MD Session Generator</h1>
+<p>Scan QR to get Session ID</p>
+<img id="qr" width="300"><br><br>
+<button onclick="getSession()">Get Session</button>
+<pre id="out"></pre>
+<script>
+setInterval(async ()=>{
+  const r=await fetch('/qr');const t=await r.text();
+  if(t) document.getElementById('qr').src=t
+},2000)
+async function getSession(){
+  const r=await fetch('/session');const t=await r.text();
+  if(t!=='WAIT'){out.innerText=t;navigator.clipboard.writeText(t)}
+  else alert('Scan QR first')
+}
+</script>
+</body>
+</html>
